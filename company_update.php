@@ -2,7 +2,7 @@
 require_once "DB.php";
 require_once "models/Customer.php";
 require_once "./models/Company.php";
-require_once "models/Conversation.php";
+require_once "models/Contract.php";
 
 $id = $_GET['id'];
 $company = Company::getOneCompany($id);
@@ -24,6 +24,7 @@ if (isset($_POST['save'])) {
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
+<?php require_once 'nav.php';?>
 <div class="container">
     <div class="row">
         <div class="col-md-10 mx-auto mt-5">

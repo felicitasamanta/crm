@@ -1,4 +1,5 @@
 <?php
+require_once 'Company.php';
 
 class Customer
 {
@@ -186,7 +187,7 @@ class Customer
     public static function getCustomer(int $id): Customer
     {
         $pdo = DB::getDB();
-        $stm = $pdo->prepare("SELECT * FROM customers WHERE id=? ");
+        $stm = $pdo->prepare("SELECT * FROM customers WHERE id=?");
         $stm->execute([$id]);
         $customer = $stm->fetch(PDO::FETCH_ASSOC);
         return new Customer($customer['name'], $customer['surname'], $customer['phone'], $customer['email'], $customer['address'], $customer['position'], $customer['company_id'], $customer['id']);
@@ -196,24 +197,45 @@ class Customer
     /**
      * Takes all customers and returns an array of customers
      * @return Customer[]
-*/
-    public static function allCustomers($company_id=null): array
+     */
+    public static function allCustomers($company_id = null): array
     {
         $pdo = DB::getDB();
-        if($company_id==null) {
-            $stm = $pdo->prepare("SELECT * FROM customers ORDER BY name");
+        if ($company_id === null) {
+            $stm = $pdo->prepare("SELECT * FROM customers");
             $stm->execute([]);
         } else {
-            $stm = $pdo->prepare("SELECT * FROM customers WHERE company_id=? ORDER BY name");
+            $stm = $pdo->prepare("SELECT * FROM customers WHERE company_id=?");
             $stm->execute([$company_id]);
         }
-        $result=[];
+        $result = [];
         foreach ($stm->fetchAll(PDO::FETCH_ASSOC) as $customer) {
             $result[] = new Customer($customer['name'], $customer['surname'], $customer['phone'], $customer['email'], $customer['address'], $customer['position'], $customer['company_id'], $customer['id']);
         }
         return $result;
     }
 
+    public static function getAllCustomers(): array
+    {
+        $pdo = DB::getDB();
+        $stm = $pdo->prepare("SELECT * FROM customers");
+        $stm->execute([]);
+        $result = [];
+        foreach ($stm->fetchAll(PDO::FETCH_ASSOC) as $customer) {
+            $result[] = new Customer($customer['name'], $customer['surname'], $customer['phone'], $customer['email'], $customer['address'], $customer['position'], $customer['company_id'], $customer['id']);
+        }
+        return $result;
+
+    }
+//    public static function getOneCustomerFromCompany(int $id, int $company_id): Customer
+//    {
+//        $pdo = DB::getDB();
+//        $stm = $pdo->prepare("SELECT * FROM customers WHERE id=? AND company_id=?  ");
+//        $stm->execute([$id, $company_id]);
+//        $company = $stm->fetch(PDO::FETCH_ASSOC);
+//        return new Company($company['name'], $company['address'], $company['vat_code'], $company['company_name'], $company['phone'], $company['email'], $company['id']);
+//
+//    }
 
     /**
      * Takes one customer and deletes from DB

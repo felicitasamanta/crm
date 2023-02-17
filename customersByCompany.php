@@ -4,10 +4,14 @@ require_once "models/Customer.php";
 require_once "models/Company.php";
 require_once "models/Contract.php";
 
+$id = $_GET['id'];
+
 if (isset($_GET['delete'])) {
     Customer::getCustomer($_GET['delete'])->delete();
-    header("location: customers.php");
+    header("location: customersByCompany.php?id=" . $id);
 }
+
+$company = Company::getOneCompany($id);
 
 ?>
 
@@ -16,7 +20,7 @@ if (isset($_GET['delete'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>All customers</title>
+    <title>Customers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
@@ -27,7 +31,7 @@ if (isset($_GET['delete'])) {
         <div class="col-md-12 mt-5">
             <div class="card">
                 <div class="card-header">
-                    Customers
+                    Customers in <?= $company->getName() ?>
                 </div>
                 <div class="card-body">
                     <table class="table">
@@ -45,8 +49,8 @@ if (isset($_GET['delete'])) {
                         </tr>
                         </thead>
                         <tbody>
+                        <?php foreach ($company->getCustomers() as $customer) { ?>
                             <tr>
-                                <?php foreach (Customer::getAllCustomers() as $customer) { ?>
                                 <td><?= $customer->getName() ?></td>
                                 <td><?= $customer->getSurname() ?></td>
                                 <td><?= $customer->getPhone() ?></td>
@@ -59,7 +63,7 @@ if (isset($_GET['delete'])) {
                                 </td>
                                 <td>
                                     <a class="btn btn-info" href="customer_update.php?id=<?= $customer->getId() ?>">Update</a>
-                                    <a class="btn btn-danger" href="customers.php?delete=<?= $customer->getId() ?>">Delete</a>
+                                    <a class="btn btn-danger" href="customersByCompany.php?id=<?= $company->getId()?>&delete=<?= $customer->getId() ?>">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>

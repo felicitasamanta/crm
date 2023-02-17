@@ -2,10 +2,11 @@
 require_once "DB.php";
 require_once "models/Customer.php";
 require_once "models/Company.php";
-require_once "models/Conversation.php";
+require_once "models/Contract.php";
 
 if (isset($_GET['delete'])) {
     Company::getOneCompany($_GET['delete'])->delete();
+    header("location: index.php");
 }
 
 ?>
@@ -20,13 +21,13 @@ if (isset($_GET['delete'])) {
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
+<?php require_once 'nav.php';?>
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-5">
             <div class="card">
                 <div class="card-header">
                     Companies
-                    <a class="btn btn-primary float-end" href="company_new.php">Add new company</a>
                 </div>
                 <div class="card-body">
                     <table class="table">
@@ -52,7 +53,7 @@ if (isset($_GET['delete'])) {
                                 <td><?= $company->getPhone() ?></td>
                                 <td><?= $company->getEmail() ?></td>
                                 <td>
-                                    <a class="btn btn-info" href="customers.php?id=<?= $company->getId() ?>">Customers</a>
+                                    <a class="btn btn-info" href="customersByCompany.php?id=<?= $company->getId() ?>">Customers</a>
                                 </td>
                                 <td>
                                     <a class="btn btn-info" href="company_update.php?id=<?= $company->getId() ?>">Update</a>
