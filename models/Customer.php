@@ -227,15 +227,11 @@ class Customer
         return $result;
 
     }
-//    public static function getOneCustomerFromCompany(int $id, int $company_id): Customer
-//    {
-//        $pdo = DB::getDB();
-//        $stm = $pdo->prepare("SELECT * FROM customers WHERE id=? AND company_id=?  ");
-//        $stm->execute([$id, $company_id]);
-//        $company = $stm->fetch(PDO::FETCH_ASSOC);
-//        return new Company($company['name'], $company['address'], $company['vat_code'], $company['company_name'], $company['phone'], $company['email'], $company['id']);
-//
-//    }
+    public function getContracts(): array
+    {
+        return Contract::allContracts($this->id);
+    }
+
 
     /**
      * Takes one customer and deletes from DB

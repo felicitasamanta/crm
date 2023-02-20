@@ -1,14 +1,12 @@
 <?php
-require_once "DB.php";
-require_once "models/Customer.php";
-require_once "./models/Company.php";
-require_once "models/Contract.php";
-
+require_once "../../DB.php";
+require_once "../../models/Customer.php";
+require_once "../../models/Contract.php";
 
 if (isset($_POST['save'])) {
     $customer = new Customer($_POST['name'], $_POST['surname'], $_POST['phone'], $_POST['email'], $_POST['address'], $_POST['position'], $_POST['company_id']);
     $customer->save();
-    header("location: customers.php");
+    header("location: ../");
     die();
 }
 ?>
@@ -22,7 +20,7 @@ if (isset($_POST['save'])) {
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
-<?php require_once 'nav.php';?>
+<?php require_once '../../commons/nav.php';?>
 <div class="container">
     <div class="row">
         <div class="col-md-10 mx-auto mt-5">
@@ -41,12 +39,12 @@ if (isset($_POST['save'])) {
                         <div class="mb-3">
                             <label class="form-label">Phone</label>
                             <input class="form-control" type="number" name="phone"
-                                  >
+                            >
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             <input class="form-control" type="text" name="email"
-                                   >
+                            >
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Address</label>

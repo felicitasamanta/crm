@@ -1,13 +1,17 @@
 <?php
-require_once "DB.php";
-require_once "models/Customer.php";
-require_once "models/Company.php";
-require_once "models/Contract.php";
+require_once "../DB.php";
+require_once "../models/Customer.php";
+require_once "../models/Company.php";
+require_once "../models/Contract.php";
+
+$id = $_GET['id'];
 
 if (isset($_GET['delete'])) {
-    Customer::getCustomer($_GET['delete'])->delete();
-    header("location: customers.php");
+    Contract::getOneContract($_GET['delete'])->delete();
+    header("location: contracts.php?id=" . $id);
 }
+$customer = Customer::getCustomer($id)
+
 
 ?>
 
@@ -16,50 +20,41 @@ if (isset($_GET['delete'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>All customers</title>
+    <title>Customers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
-<?php require_once 'nav.php';?>
+<?php require_once '../commons/nav.php';?>
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-5">
             <div class="card">
                 <div class="card-header">
-                    Customers
+                 Contracts
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Surname</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Position</th>
-                            <th>Contracts</th>
-                            <th>Actions</th>
+                            <th>Date</th>
+                            <th>Conversation</th>
 
                         </tr>
                         </thead>
                         <tbody>
+                        <?php foreach ($customer->getContracts()as $contract) { ?>
                             <tr>
-                                <?php foreach (Customer::getAllCustomers() as $customer) { ?>
-                                <td><?= $customer->getName() ?></td>
-                                <td><?= $customer->getSurname() ?></td>
-                                <td><?= $customer->getPhone() ?></td>
-                                <td><?= $customer->getEmail() ?></td>
-                                <td><?= $customer->getAddress() ?></td>
-                                <td><?= $customer->getPosition() ?></td>
+                                <td><?= $contract->getDate() ?></td>
+                                <td><?= $contract-> getConversation() ?></td>
+
                                 <td>
                                     <a class="btn btn-info"
                                        href="contracts.php?id=<?= $customer->getId() ?>">Contracts</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-info" href="customer_update.php?id=<?= $customer->getId() ?>">Update</a>
-                                    <a class="btn btn-danger" href="customers.php?delete=<?= $customer->getId() ?>">Delete</a>
+                                    <a class="btn btn-info" href="/php/crm/customers/forms/update.php?id=<?= $customer->getId() ?>">Update</a>
+                                    <a class="btn btn-danger" href="/php/crm/customers/forms/delete.php?id=<?= $company->getId()?>&delete=<?= $customer->getId() ?>">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>

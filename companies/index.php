@@ -1,17 +1,9 @@
 <?php
-require_once "DB.php";
-require_once "models/Customer.php";
-require_once "models/Company.php";
-require_once "models/Contract.php";
+$root = realpath($_SERVER["DOCUMENT_ROOT"]) . "/php/crm";
 
-$id = $_GET['id'];
-
-if (isset($_GET['delete'])) {
-    Customer::getCustomer($_GET['delete'])->delete();
-    header("location: customersByCompany.php?id=" . $id);
-}
-
-$company = Company::getOneCompany($id);
+require_once "$root/DB.php";
+require_once "$root/models/Company.php";
+require_once "$root/models/Contract.php";
 
 ?>
 
@@ -20,50 +12,48 @@ $company = Company::getOneCompany($id);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Customers</title>
+    <title>Companies</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
-<?php require_once 'nav.php';?>
+<?php require_once "$root/commons/nav.php";?>
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-5">
             <div class="card">
                 <div class="card-header">
-                    Customers in <?= $company->getName() ?>
+                    Companies
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Surname</th>
+                            <th>Address</th>
+                            <th>VAT code</th>
+                            <th>Company Name</th>
                             <th>Phone</th>
                             <th>Email</th>
-                            <th>Address</th>
-                            <th>Position</th>
-                            <th>Contracts</th>
+                            <th>Customers</th>
                             <th>Actions</th>
-
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($company->getCustomers() as $customer) { ?>
+                        <?php foreach (Company::getAllCompanies() as $company) { ?>
                             <tr>
-                                <td><?= $customer->getName() ?></td>
-                                <td><?= $customer->getSurname() ?></td>
-                                <td><?= $customer->getPhone() ?></td>
-                                <td><?= $customer->getEmail() ?></td>
-                                <td><?= $customer->getAddress() ?></td>
-                                <td><?= $customer->getPosition() ?></td>
+                                <td><?= $company->getName() ?></td>
+                                <td><?= $company->getAddress() ?></td>
+                                <td><?= $company->getVatCode() ?></td>
+                                <td><?= $company->getCompanyName() ?></td>
+                                <td><?= $company->getPhone() ?></td>
+                                <td><?= $company->getEmail() ?></td>
                                 <td>
-                                    <a class="btn btn-info"
-                                       href="contracts.php?id=<?= $customer->getId() ?>">Contracts</a>
+                                    <a class="btn btn-info" href="customers.php?id=<?= $company->getId() ?>">Customers</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-info" href="customer_update.php?id=<?= $customer->getId() ?>">Update</a>
-                                    <a class="btn btn-danger" href="customersByCompany.php?id=<?= $company->getId()?>&delete=<?= $customer->getId() ?>">Delete</a>
+                                    <a class="btn btn-info" href="forms/update.php?id=<?= $company->getId() ?>">Update</a>
+                                    <a class="btn btn-danger" href="forms/delete.php?id=<?= $company->getId() ?>">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>

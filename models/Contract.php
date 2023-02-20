@@ -15,7 +15,7 @@ class Contract
      * @param Date|null $date
      * @param string|null $conversation
      */
-    public function __construct(?int $customer_id, ?Date $date, ?string $conversation, ?int $id=null)
+    public function __construct(?int $customer_id, ?Date $date, ?string $conversation, ?int $id = null)
     {
         $this->id = $id;
         $this->customer_id = $customer_id;
@@ -86,15 +86,63 @@ class Contract
     {
         $this->conversation = $conversation;
     }
+
     public static function getOneContract(int $id): Contract
     {
         $pdo = DB::getDB();
         $stm = $pdo->prepare("SELECT * FROM contracts WHERE id=? ");
         $stm->execute([$id]);
-        $company = $stm->fetch(PDO::FETCH_ASSOC);
-        return new Company($company['name'], $company['address'], $company['vat_code'], $company['company_name'], $company['phone'], $company['email'], $company['id']);
+        $contract = $stm->fetch(PDO::FETCH_ASSOC);
+        return new Contract($contract['customer_id'], $contract['date'], $contract['conversation']);
 
     }
 
+    public function save(): void
+    {
+        $pdo = DB::getDB();
+        if ($this->id === null) {
+            $stm = $pdo->prepare("INSERT INTO contracts(date, conversation) VALUES ( ?, ?)");
+            $stm->execute([$this->date, $this->conversation]);
+            $this->id = $pdo->lastInsertId();
+        } else {
+            $stm = $pdo->prepare("UPDATE contracts SET =?, =?, phone=?, email=?, address=?, position=?, company_id=? WHERE customer_id=?");
+            $stm->execute([$this->date, $this->conversation, $this->customer_id, $this->id]);
+        }
+    }
 
+    public static function allContracts($customer_id = null): array
+    {
+        $pdo = DB::getDB();
+        if ($customer_id === null) {
+            $stm = $pdo->prepare("SELECT * FROM contracts");
+            $stm->execute([]);
+        } else {
+            $stm = $pdo->prepare("SELECT * FROM contracts WHERE customer_id=?");
+            $stm->execute([$customer_id]);
+        }
+        $result = [];
+        foreach ($stm->fetchAll(PDO::FETCH_ASSOC) as $contract) {
+            $result[] = new Contract($contract['customer_id'], $contract['date'], $contract['conversation'], $contract['customer_id']);
+        }
+        return $result;
+    }
+
+    public static function getAllContracts(): array
+    {
+        $pdo = DB::getDB();
+        $stm = $pdo->prepare("SELECT * FROM contracts");
+        $stm->execute([]);
+        $result = [];
+        foreach ($stm->fetchAll(PDO::FETCH_ASSOC) as $contract) {
+            $result[] = new Contract($contract['customer_id'], $contract['date'], $contract['conversation'], $contract['id']);
+        }
+        return $result;
+    }
+
+    public function delete(): void
+    {
+        $pdo = DB::getDB();
+        $stm = $pdo->prepare("DELETE FROM contracts WHERE id=?");
+        $stm->execute([$this->id]);
+    }
 }

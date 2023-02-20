@@ -8,35 +8,35 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="/php/crm/index.php" role="button"
+                    <a class="nav-link dropdown-toggle" href="/php/crm/" role="button"
                        data-bs-toggle="dropdown"
                        aria-expanded="false">
                         Companies
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/php/crm/company_new.php">Add new company</a></li>
+                        <li><a class="dropdown-item" href="/php/crm/companies/forms/create.php">Add new company</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="/php/crm/customers.php" role="button"
+                    <a class="nav-link dropdown-toggle" href="/php/crm/customers/" role="button"
                        data-bs-toggle="dropdown"
                        aria-expanded="false">
                         Customers
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/php/crm/customers.php">All customers</a></li>
-                        <li><a class="dropdown-item" href="/php/crm/customer_new.php">Add new customer</a></li>
+                        <li><a class="dropdown-item" href="/php/crm/customers">All customers</a></li>
+                        <li><a class="dropdown-item" href="/php/crm/customers/forms/create.php">Add new customer</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="/php/crm/contracts.php" role="button"
+                    <a class="nav-link dropdown-toggle" href="/php/crm/contracts/" role="button"
                        data-bs-toggle="dropdown"
                        aria-expanded="false">
                         Contracts
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/php/crm/contracts.php">All contracts</a></li>
-                        <li><a class="dropdown-item" href="/php/crm/contract_new.php">Add new contract</a></li>
+                        <li><a class="dropdown-item" href="/php/crm/contracts/">All contracts</a></li>
+                        <li><a class="dropdown-item" href="/php/crm/contracts/forms/create.php">Add new contract</a></li>
                     </ul>
                 </li>
 
